@@ -8,7 +8,7 @@ import Loading from '../components/Loading';
 
 export default function SignIn() {
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const emailRef = useRef("");
   const passwordRef = useRef("");
@@ -69,7 +69,7 @@ export default function SignIn() {
               {
                 loading ? 
                 <View className="flex-row justify-center">
-                  <Loading size={hp(8)} /> 
+                  <Loading size={hp(6.5)} /> 
                 </View>
                 : 
                 <TouchableOpacity onPress={handleSignIn} style={{ height: hp(6.5) }} className="bg-indigo-500 rounded-xl justify-center items-center">
@@ -81,7 +81,7 @@ export default function SignIn() {
             {/* SignUp text */}
             <View className="flex-row justify-center">
               <Text style={{ fontSize: hp(1.8) }} className="font-semibold text-neutral-500">Don't have an account?</Text>
-              <Pressable onPress={() => router.push('signup')}>
+              <Pressable onPress={() => router.push('signUp')}>
                 <Text style={{ fontSize: hp(1.8) }} className="font-bold text-indigo-500">Sign Up</Text>
               </Pressable>
             </View>
