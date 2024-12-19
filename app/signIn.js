@@ -32,6 +32,7 @@ export default function SignIn() {
             <View style={{ height: hp(7) }} className="flex-row gap-4 px-4 bg-neutral-200 items-center rounded-xl">
               <Octicons name="mail" size={hp(2.7)} color="gray" />
               <TextInput 
+                onChangeText={value => emailRef.current = value}
                 style={{ fontSize: hp(2), marginLeft: wp(2) }} 
                 className="flex-1 font-semibold text-neutral-700" 
                 placeholder="Email address" 
@@ -43,6 +44,7 @@ export default function SignIn() {
               <View style={{ height: hp(7) }} className="flex-row gap-4 px-4 bg-neutral-200 items-center rounded-xl">
                 <Octicons name="lock" size={hp(2.7)} color="gray" />
                 <TextInput 
+                  onChangeText={value => passwordRef.current = value}
                   style={{ fontSize: hp(2), marginLeft: wp(2) }} 
                   className="flex-1 font-semibold text-neutral-700" 
                   placeholder="Password" 
@@ -53,7 +55,7 @@ export default function SignIn() {
             </View>
 
             {/* Submit Button */}
-            <TouchableOpacity style={{ height: hp(6.5) }} className="bg-indigo-500 rounded-xl justify-center items-center">
+            <TouchableOpacity onPress={handleSignIn} style={{ height: hp(6.5) }} className="bg-indigo-500 rounded-xl justify-center items-center">
               <Text style={{ fontSize: hp(2.7) }} className="font-bold tracking-wider text-white">Sign in</Text>
             </TouchableOpacity>
 
