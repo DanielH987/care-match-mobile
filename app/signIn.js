@@ -1,12 +1,14 @@
 import { View, Text, Image, TextInput, TouchableOpacity, Pressable, Alert } from 'react-native';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { StatusBar } from 'expo-status-bar';
 import { Octicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import Loading from '../components/Loading';
 
 export default function SignIn() {
 
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
   const emailRef = useRef("");
   const passwordRef = useRef("");
@@ -63,9 +65,18 @@ export default function SignIn() {
             </View>
 
             {/* Submit Button */}
-            <TouchableOpacity onPress={handleSignIn} style={{ height: hp(6.5) }} className="bg-indigo-500 rounded-xl justify-center items-center">
-              <Text style={{ fontSize: hp(2.7) }} className="font-bold tracking-wider text-white">Sign in</Text>
-            </TouchableOpacity>
+            <View>
+              {
+                loading ? 
+                <View className="flex-row justify-center">
+                  <Loading size={hp(8)} /> 
+                </View>
+                : 
+                <TouchableOpacity onPress={handleSignIn} style={{ height: hp(6.5) }} className="bg-indigo-500 rounded-xl justify-center items-center">
+                  <Text style={{ fontSize: hp(2.7) }} className="font-bold tracking-wider text-white">Sign in</Text>
+                </TouchableOpacity>
+              }
+            </View>
 
             {/* SignUp text */}
             <View className="flex-row justify-center">
