@@ -25,4 +25,18 @@ export const AuthContextProvider = ({ children }) => {
             console.error(error);
         }
     };
+
+    const register = async (email, password, username, profileUrl) => {
+        try {
+            // signInWithEmailAndPassword
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    return (
+        <AuthContext.Provider value={{ user, isAuthenticated, login, logout, register }}>
+            {children}
+        </AuthContext.Provider>
+    )
 }
