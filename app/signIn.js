@@ -18,6 +18,7 @@ export default function SignIn() {
     }
 
     // Call login function from authContext
+
   };
 
   return (
@@ -54,6 +55,7 @@ export default function SignIn() {
                   style={{ fontSize: hp(2), marginLeft: wp(2) }} 
                   className="flex-1 font-semibold text-neutral-700" 
                   placeholder="Password" 
+                  secureTextEntry
                   placeholderTextColor={'gray'}
                 />
               </View>
