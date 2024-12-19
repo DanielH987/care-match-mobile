@@ -1,4 +1,4 @@
-import { View, Text, Image, TextInput, TouchableOpacity, Pressable } from 'react-native';
+import { View, Text, Image, TextInput, TouchableOpacity, Pressable, Alert } from 'react-native';
 import React, { useRef } from 'react';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { StatusBar } from 'expo-status-bar';
@@ -10,8 +10,14 @@ export default function SignIn() {
   const router = useRouter();
   const emailRef = useRef("");
   const passwordRef = useRef("");
+
   const handleSignIn = async () => {
-    // signInWithEmailAndPassword
+    if (!emailRef.current || !passwordRef.current) {
+      Alert.alert('Sign In', 'Please fill all fields');
+      return;
+    }
+
+    // Call login function from authContext
   };
 
   return (
