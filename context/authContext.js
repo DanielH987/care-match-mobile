@@ -11,6 +11,18 @@ export const AuthContextProvider = ({ children }) => {
     }, []);
 
     const login = async (email, password) => {
-        // signInWithEmailAndPassword
+        try {
+            // signInWithEmailAndPassword
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const logout = async () => {
+        try {
+            // signInWithEmailAndPassword
+        } catch (error) {
+            console.error(error);
+        }
     };
 }
