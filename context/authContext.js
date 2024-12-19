@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import { useState, useEffect, createContext, useContext } from 'react';
 
 export const AuthContext = createContext();
 
@@ -8,6 +8,10 @@ export const AuthContextProvider = ({ children }) => {
 
     useEffect(() => {
         // onAuthStateChanged
+
+        setTimeout(() => {
+            setIsAuthenticated(true);
+        }, 3000);
     }, []);
 
     const login = async (email, password) => {
