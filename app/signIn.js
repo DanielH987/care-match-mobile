@@ -1,10 +1,19 @@
 import { View, Text, Image, TextInput, TouchableOpacity, Pressable } from 'react-native';
-import React from 'react';
+import React, { useRef } from 'react';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { StatusBar } from 'expo-status-bar';
 import { Octicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 
 export default function SignIn() {
+
+  const router = useRouter();
+  const emailRef = useRef("");
+  const passwordRef = useRef("");
+  const handleSignIn = async () => {
+    // signInWithEmailAndPassword
+  };
+
   return (
     <View className="flex-1">
       <StatusBar style="dark" />
@@ -51,7 +60,7 @@ export default function SignIn() {
             {/* SignUp text */}
             <View className="flex-row justify-center">
               <Text style={{ fontSize: hp(1.8) }} className="font-semibold text-neutral-500">Don't have an account?</Text>
-              <Pressable>
+              <Pressable onPress={() => router.push('signup')}>
                 <Text style={{ fontSize: hp(1.8) }} className="font-bold text-indigo-500">Sign Up</Text>
               </Pressable>
             </View>
