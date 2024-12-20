@@ -24,7 +24,7 @@ export default function SignIn() {
   };
 
   return (
-    <View className="flex-1">
+    <CustomKeyboardView>
       <StatusBar style="dark" />
       <View style={{ paddingTop: hp(8), paddingHorizontal: wp(5) }} className="flex-1 gap-12">
         {/* Signin image */}
@@ -89,6 +89,6 @@ export default function SignIn() {
           </View>
         </View>
       </View>
-    </View>
+    </CustomKeyboardView>
   );
 }
