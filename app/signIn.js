@@ -5,6 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Octicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import Loading from '../components/Loading';
+import CustomKeyboardView from '../components/CustomkeyboardView';
 
 export default function SignIn() {
 
