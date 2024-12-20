@@ -1,6 +1,6 @@
 import { useState, useEffect, createContext, useContext } from 'react';
 import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebaseConfig';
+import { auth, db } from '../firebaseConfig';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 export const AuthContext = createContext();
@@ -11,6 +11,7 @@ export const AuthContextProvider = ({ children }) => {
 
     useEffect(() => {
         const unsub = onAuthStateChanged(auth, (user) => {
+            console.log('user', user);
             if (user) {
                 setUser(user);
                 setIsAuthenticated(true);
@@ -41,19 +42,36 @@ export const AuthContextProvider = ({ children }) => {
 
     const register = async (email, password, username, profileUrl) => {
         try {
-            // registerWithEmailAndPassword
+            // Create the user in Firebase Authentication
             const response = await createUserWithEmailAndPassword(auth, email, password);
-            console.log('response.error'. response?.user);
-
+            
+            console.log('User created:', response?.user);
+    
+            // Add the user's data to Firestore
             await setDoc(doc(db, "users", response?.user?.uid), {
                 username,
                 profileUrl,
                 userId: response?.user?.uid,
+                email, // Store email for easy retrieval
+                createdAt: new Date().toISOString(),
             });
-
+    
             return { success: true, data: response?.user };
         } catch (error) {
-            return { success: false, msg: error.message };
+            let msg = error.message;
+    
+            // Friendly error messages for common cases
+            if (msg.includes('(auth/email-already-in-use)')) {
+                msg = 'This email address is already in use.';
+            } else if (msg.includes('(auth/invalid-email)')) {
+                msg = 'Invalid email address.';
+            } else if (msg.includes('(auth/weak-password)')) {
+                msg = 'Password should be at least 6 characters.';
+            }
+    
+            console.error('Error during registration:', error);
+    
+            return { success: false, msg };
         }
     };
 
