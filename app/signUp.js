@@ -5,6 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Feather, Octicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import Loading from '../components/Loading';
+import CustomKeyboardView from '../components/CustomkeyboardView';
 
 export default function SignUp() {
 
@@ -26,7 +27,7 @@ export default function SignUp() {
   };
 
   return (
-    <View className="flex-1">
+    <CustomKeyboardView >
       <StatusBar style="dark" />
       <View style={{ paddingTop: hp(7), paddingHorizontal: wp(5) }} className="flex-1 gap-12">
         {/* Signin image */}
@@ -115,6 +116,6 @@ export default function SignUp() {
           </View>
         </View>
       </View>
-    </View>
+    </CustomKeyboardView>
   );
 }
