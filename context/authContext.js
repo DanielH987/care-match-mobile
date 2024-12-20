@@ -1,5 +1,5 @@
 import { useState, useEffect, createContext, useContext } from 'react';
-import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth, db } from '../firebaseConfig';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 
@@ -11,10 +11,10 @@ export const AuthContextProvider = ({ children }) => {
 
     useEffect(() => {
         const unsub = onAuthStateChanged(auth, (user) => {
-            console.log('user', user);
             if (user) {
                 setUser(user);
                 setIsAuthenticated(true);
+                updateUserData(user.uid);
             } else {
                 setUser(null);
                 setIsAuthenticated(false);
@@ -24,19 +24,41 @@ export const AuthContextProvider = ({ children }) => {
         return unsub;
     }, []);
 
+    const updateUserData = async (userId) => {
+        const docRef = doc(db, "users", userId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            let data = docSnap.data();
+            setUser({ ...user, username: data.username, profileUrl: data.profileUrl, userId: data.userId });
+        }
+    };
+
     const login = async (email, password) => {
         try {
-            // signInWithEmailAndPassword
+            const response = await signInWithEmailAndPassword(auth, email, password);
+
+            return { success: true };
         } catch (error) {
-            console.error(error);
+            let msg = error.message;
+    
+            // Friendly error messages for common cases
+            if (msg.includes('(auth/invalid-email)') || msg.includes('(auth/invalid-credential)')) {
+                msg = 'Invalid email or password.';
+            } else {
+                msg = 'An unexpected error occurred. Please try again.';
+            }
+    
+            return { success: false, msg };
         }
     };
 
     const logout = async () => {
         try {
-            // signInWithEmailAndPassword
+            await signOut(auth);
+            return { success: true };
         } catch (error) {
-            console.error(error);
+            return { success: false, msg: error.message, error: error };
         }
     };
 
@@ -68,8 +90,6 @@ export const AuthContextProvider = ({ children }) => {
             } else if (msg.includes('(auth/weak-password)')) {
                 msg = 'Password should be at least 6 characters.';
             }
-    
-            console.error('Error during registration:', error);
     
             return { success: false, msg };
         }
