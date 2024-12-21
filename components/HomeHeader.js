@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import React from 'react';
 import { Image } from 'expo-image';
 import { blurhash } from '../utils/common';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/authContext';
 
 const ios = Platform.OS == 'ios';
 
