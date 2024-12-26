@@ -6,17 +6,36 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import ChatList from '../../components/ChatList';
 import Loading from '../../components/Loading';
 import { use } from 'react';
+import { query, where, getDocs } from 'firebase/firestore';
+import { usersRef } from '../../firebaseConfig';
 
 export default function Home() {
 
   const {logout, user} = useAuth();
-  const [users, setUsers] = useState([1,2,3]);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    if (user?.uid) getUsers();
+    if (user?.uid) {
+      getUsers();
+    }
   }, []);
-
+  
   const getUsers = async () => {
+    // Fetch users from the database
+    const q = query(usersRef, where("userId", "!=", user?.uid));
+  
+    try {
+      const querySnapshot = await getDocs(q);
+      let data = [];
+      querySnapshot.forEach(doc => {
+        data.push({...doc.data()});
+      });
+  
+      // Set the users to the state only after data is fetched
+      setUsers(data);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
   };
 
   return (
