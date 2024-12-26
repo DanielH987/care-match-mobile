@@ -12,17 +12,21 @@ import {
     MenuTrigger,
 } from 'react-native-popup-menu';
 import { MenuItem } from './CustomMenuItems';
-import { Feather } from '@expo/vector-icons';
+import { AntDesign, Feather } from '@expo/vector-icons';
 
 const ios = Platform.OS == 'ios';
 
 export default function HomeHeader() {
 
-    const {user} = useAuth();
+    const {user, logout} = useAuth();
     const {top} = useSafeAreaInsets();
 
     const handleProfile = () => {
         console.log('profile');
+    };
+
+    const handleLogout = async () => {
+        await logout();
     };
 
     return (
@@ -45,17 +49,48 @@ export default function HomeHeader() {
                             transition={500}
                         />
                     </MenuTrigger>
-                    <MenuOptions>
+                    <MenuOptions
+                        customStyles={{
+                            optionsContainer: { 
+                                borderRadius: 10,
+                                borderCurve: 'continuous',
+                                marginTop: 40,
+                                marginLeft: -30,
+                                backgroundColor: 'white',
+                                shadowOpacity: 0.2,
+                                shadowOffset: { width: 0, height: 0 },
+                                width: 160,
+                            },
+                        }}
+                    >
+
+                        {/* Profile menu options */}
                         <MenuItem 
-                            text="profile"
+                            text="Profile"
                             action={handleProfile}
                             value={null}
                             icon={<Feather name="user" size={hp(2.5)} color="#737373" />}
+                        />
+
+                        <Divider />
+
+                        {/* Sign out menu options */}
+                        <MenuItem 
+                            text="Sign Out"
+                            action={handleLogout}
+                            value={null}
+                            icon={<AntDesign name="logout" size={hp(2.5)} color="#737373" />}
                         />
                     </MenuOptions>
                 </Menu>
                 
             </View>
         </View>
+    );
+}
+
+const Divider = () => {
+    return (
+        <View className='p-[1px] w-full bg-neutral-200' />
     );
 }
