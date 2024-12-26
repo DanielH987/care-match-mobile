@@ -66,7 +66,7 @@ export default function HomeHeader() {
 
                         {/* Profile menu options */}
                         <MenuItem 
-                            text="profile"
+                            text="Profile"
                             action={handleProfile}
                             value={null}
                             icon={<Feather name="user" size={hp(2.5)} color="#737373" />}
