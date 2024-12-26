@@ -11,6 +11,8 @@ import {
     MenuOption,
     MenuTrigger,
 } from 'react-native-popup-menu';
+import { MenuItem } from './CustomMenuItems';
+import { Feather } from '@expo/vector-icons';
 
 const ios = Platform.OS == 'ios';
 
@@ -18,6 +20,10 @@ export default function HomeHeader() {
 
     const {user} = useAuth();
     const {top} = useSafeAreaInsets();
+
+    const handleProfile = () => {
+        console.log('profile');
+    };
 
     return (
         <View style={{ paddingTop: ios? top : top + 10 }} className="flex-row justify-between px-5 bg-indigo-400 pb-6 rounded-b-3xl shadow">
@@ -40,11 +46,12 @@ export default function HomeHeader() {
                         />
                     </MenuTrigger>
                     <MenuOptions>
-                        <MenuOption onSelect={() => alert(`Save`)} text='Save' />
-                        <MenuOption onSelect={() => alert(`Delete`)} >
-                        <Text style={{color: 'red'}}>Delete</Text>
-                        </MenuOption>
-                        <MenuOption onSelect={() => alert(`Not called`)} disabled={true} text='Disabled' />
+                        <MenuItem 
+                            text="profile"
+                            action={handleProfile}
+                            value={null}
+                            icon={<Feather name="user" size={hp(2.5)} color="#737373" />}
+                        />
                     </MenuOptions>
                 </Menu>
                 
