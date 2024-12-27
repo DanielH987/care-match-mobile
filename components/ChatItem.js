@@ -1,12 +1,53 @@
 import { View, Text, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Image } from 'expo-image';
-import { blurshash } from '../utils/common';
+import { blurshash, getRoomId } from '../utils/common';
+import { doc, setDoc, Timestamp, collection, addDoc, query, orderBy, onSnapshot } from 'firebase/firestore';
+import { db } from '../firebaseConfig';
 
-export default function ChatItem({ item, router, noBorder }) {
+export default function ChatItem({ item, router, noBorder, currentUser }) {
+    const [lastMessage, setLastMessage] = useState(undefined);
+
+    useEffect(() => {
+
+        let roomId = getRoomId(currentUser?.userId, item?.userId);
+        const docRef = doc(db, "rooms", roomId);
+        const messageRef = collection(docRef, "messages");
+        const q = query(messageRef, orderBy('createdAt', 'desc'));
+
+        let unsub = onSnapshot(q, (querySnapshot) => {
+            let allMessages = querySnapshot.docs.map(doc => {
+                return doc.data()
+            });
+            setLastMessage(allMessages[0] ? allMessages[0] : null);
+        });
+
+        return unsub;
+    }, []);
+    
     const openChatRoom = () => {
         router.push({pathname: '/chatRoom', params: item});
+    };
+
+    const renderTime = () => {
+        return 'Time';
+    }
+
+    const renderLastMessage = () => {
+        if (typeof lastMessage === 'undefined') return 'Loading...';
+
+        if (lastMessage) {
+            if (currentUser?.userId == lastMessage?.userId) return "You: " + lastMessage?.text;
+            return lastMessage?.text;
+        } else {
+            return 'Say Hi! 👋';
+        }
+    };
+
+    const truncateText = (text, limit) => {
+        if (!text || text.length <= limit) return text;
+        return `${text.slice(0, limit)}...`;
     };
     
     return (
@@ -32,12 +73,14 @@ export default function ChatItem({ item, router, noBorder }) {
                         style={{ fontSize: hp(1.6) }}
                         className='font-medium text-neutral-500'
                     >
-                        Time
+                        {renderTime()}
                     </Text>
                 </View>
 
                 {/* Last message */}
-                <Text style={{ fontSize: hp(1.6) }} className='font-medium text-neutral-500'>Last message</Text>
+                <Text style={{ fontSize: hp(1.6) }} className='font-medium text-neutral-500 truncate'>
+                    {truncateText(renderLastMessage(), 28)}
+                </Text>
             </View>
         </TouchableOpacity>
     );
