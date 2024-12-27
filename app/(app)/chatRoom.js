@@ -85,12 +85,14 @@ export default function ChatRoom() {
                         <MessageList messages={messages} currentUser={user} />
                     </View>
                     <View style={{ marginBottom: hp(2.7) }} className='pt-2'>
-                        <View className='flex-row mx-3 justify-between bg-white border p-2 border-neutral-300 rounded-full pl-5'>
+                        <View className='flex-row mx-3 justify-between bg-white border p-2 border-neutral-300 rounded-full pl-5' style={{ height: hp(6) }}>
                             <TextInput
                                 ref={inputRef}
                                 onChangeText={value => textRef.current = value}
                                 placeholder='Type message...'
-                                style={{ fontSize: hp(2) }}
+                                multiline
+                                scrollEnabled
+                                style={{ fontSize: hp(2), maxHeight: hp(10) }} // Limit input height
                                 className='flex-1 mr-2'
                             />
                             <TouchableOpacity onPress={handleSendMessage} className='bg-neutral-200 p-2 mr-[1px] rounded-full'>
