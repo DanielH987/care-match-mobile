@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import ChatRoomHeader from '../../components/ChatRoomHeader';
 import MessageList from '../../components/MessageList';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Feather } from '@expo/vector-icons';
 import CustomKeyboardView from '../../components/CustomkeyboardView';
 import { useAuth } from '../../context/authContext';
@@ -12,9 +12,9 @@ import { getRoomId } from '../../utils/common';
 import { doc, setDoc, Timestamp, collection, addDoc, query, orderBy, onSnapshot } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
 
-export default function ChatRoom () {
+export default function ChatRoom() {
     const item = useLocalSearchParams(); // This is the user we are chatting with
-    const {user} = useAuth(); // This is the current user
+    const { user } = useAuth(); // This is the current user
     const router = useRouter();
     const [messages, setMessages] = useState([]);
     const textRef = useRef('');
@@ -56,7 +56,7 @@ export default function ChatRoom () {
             const docRef = doc(db, "rooms", roomId);
             const messageRef = collection(docRef, "messages");
             textRef.current = '';
-            
+
             if (inputRef) inputRef?.current?.clear();
 
             const newDoc = await addDoc(messageRef, {
@@ -78,15 +78,15 @@ export default function ChatRoom () {
         <CustomKeyboardView inChat={true}>
             <View className='flex-1 bg-white'>
                 <StatusBar style='dark' />
-                <ChatRoomHeader user={item} router={router}/>
-                <View className='h-3 border-b border-neutral-300'/>
+                <ChatRoomHeader user={item} router={router} />
+                <View className='h-3 border-b border-neutral-300' />
                 <View className='flex-1 justify-between bg-neutral-100 ovverflow-visible'>
                     <View className='flex-1'>
                         <MessageList messages={messages} currentUser={user} />
                     </View>
                     <View style={{ marginBottom: hp(2.7) }} className='pt-2'>
                         <View className='flex-row mx-3 justify-between bg-white border p-2 border-neutral-300 rounded-full pl-5'>
-                            <TextInput 
+                            <TextInput
                                 ref={inputRef}
                                 onChangeText={value => textRef.current = value}
                                 placeholder='Type message...'
@@ -94,7 +94,7 @@ export default function ChatRoom () {
                                 className='flex-1 mr-2'
                             />
                             <TouchableOpacity onPress={handleSendMessage} className='bg-neutral-200 p-2 mr-[1px] rounded-full'>
-                                <Feather name='send' size={hp(2.7)} color='#737373'/>
+                                <Feather name='send' size={hp(2.7)} color='#737373' />
                             </TouchableOpacity>
                         </View>
                     </View>
