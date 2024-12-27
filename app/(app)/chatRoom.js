@@ -9,7 +9,7 @@ import { Feather } from '@expo/vector-icons';
 import CustomKeyboardView from '../../components/CustomkeyboardView';
 import { useAuth } from '../../context/authContext';
 import { getRoomId } from '../../utils/common';
-import { doc, setDoc, Timestamp, collection, addDoc } from 'firebase/firestore';
+import { doc, setDoc, Timestamp, collection, addDoc, query, orderBy, onSnapshot } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
 
 export default function ChatRoom () {
@@ -18,9 +18,24 @@ export default function ChatRoom () {
     const router = useRouter();
     const [messages, setMessages] = useState([]);
     const textRef = useRef('');
+    const inputRef = useRef(null);
 
     useEffect(() => {
         createRoomIfNotExists();
+
+        let roomId = getRoomId(user?.userId, item?.userId);
+        const docRef = doc(db, "rooms", roomId);
+        const messageRef = collection(docRef, "messages");
+        const q = query(messageRef, orderBy('createdAt', 'asc'));
+
+        let unsub = onSnapshot(q, (querySnapshot) => {
+            let allMessages = querySnapshot.docs.map(doc => {
+                return doc.data()
+            });
+            setMessages([...allMessages]);
+        });
+
+        return unsub;
     }, []);
 
     const createRoomIfNotExists = async () => {
@@ -40,6 +55,9 @@ export default function ChatRoom () {
             let roomId = getRoomId(user?.userId, item?.userId);
             const docRef = doc(db, "rooms", roomId);
             const messageRef = collection(docRef, "messages");
+            textRef.current = '';
+            
+            if (inputRef) inputRef?.current?.clear();
 
             const newDoc = await addDoc(messageRef, {
                 userId: user.userId,
@@ -56,6 +74,8 @@ export default function ChatRoom () {
         }
     };
 
+    console.log('Messages:', JSON.stringify(messages, null, 2));
+
     return (
         <CustomKeyboardView inChat={true}>
             <View className='flex-1 bg-white'>
@@ -69,6 +89,7 @@ export default function ChatRoom () {
                     <View style={{ marginBottom: hp(2.7) }} className='pt-2'>
                         <View className='flex-row mx-3 justify-between bg-white border p-2 border-neutral-300 rounded-full pl-5'>
                             <TextInput 
+                                ref={inputRef}
                                 onChangeText={value => textRef.current = value}
                                 placeholder='Type message...'
                                 style={{ fontSize: hp(2) }}
