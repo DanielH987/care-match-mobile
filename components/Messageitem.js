@@ -18,7 +18,7 @@ export default function MessageItem({ message, currentUser }) {
     } else {
         return (
             <View style={{ width: wp(80) }} className='mb-3 ml-3'>
-                <View className='flex self-start p-3 px-4 rounded-2xl bg-indigo-100 border-indigo-200 border'>
+                <View className='flex self-start p-3 px-4 rounded-2xl bg-[#FF98B1] border-[#FF86A3] border'>
                     <Text style={{ fontSize: hp(1.9) }}>
                         {message?.text}
                     </Text>

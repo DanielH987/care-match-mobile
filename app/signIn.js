@@ -80,7 +80,7 @@ export default function SignIn() {
                   <Loading size={hp(6.5)} /> 
                 </View>
                 : 
-                <TouchableOpacity onPress={handleSignIn} style={{ height: hp(6.5) }} className="bg-indigo-500 rounded-xl justify-center items-center">
+                <TouchableOpacity onPress={handleSignIn} style={{ height: hp(6.5) }} className="bg-[#FF98B1] rounded-xl justify-center items-center">
                   <Text style={{ fontSize: hp(2.7) }} className="font-bold tracking-wider text-white">Sign in</Text>
                 </TouchableOpacity>
               }
@@ -90,7 +90,7 @@ export default function SignIn() {
             <View className="flex-row justify-center">
               <Text style={{ fontSize: hp(1.8) }} className="font-semibold text-neutral-500">Don't have an account?</Text>
               <Pressable onPress={() => router.push('signUp')}>
-                <Text style={{ fontSize: hp(1.8) }} className="font-bold text-indigo-500">Sign Up</Text>
+                <Text style={{ fontSize: hp(1.8) }} className="font-bold text-[#FF98B1]">Sign Up</Text>
               </Pressable>
             </View>
 

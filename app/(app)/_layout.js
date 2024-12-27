@@ -5,8 +5,8 @@ import HomeHeader from '../../components/HomeHeader';
 
 export default function _layout() {
     return (
-        <SafeAreaView className="flex-1 bg-indigo-400">
-            <StatusBar className="bg-indigo-400"/>
+        <SafeAreaView className="flex-1 bg-[#FF98B1]">
+            <StatusBar className="bg-[#FF98B1]"/>
             <Stack>
                 <Stack.Screen
                     name="home"

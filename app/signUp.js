@@ -107,7 +107,7 @@ export default function SignUp() {
                   <Loading size={hp(6.5)} /> 
                 </View>
                 : 
-                <TouchableOpacity onPress={handleRegister} style={{ height: hp(6.5) }} className="bg-indigo-500 rounded-xl justify-center items-center">
+                <TouchableOpacity onPress={handleRegister} style={{ height: hp(6.5) }} className="bg-[#FF98B1] rounded-xl justify-center items-center">
                   <Text style={{ fontSize: hp(2.7) }} className="font-bold tracking-wider text-white">Sign Up</Text>
                 </TouchableOpacity>
               }
@@ -117,7 +117,7 @@ export default function SignUp() {
             <View className="flex-row justify-center">
               <Text style={{ fontSize: hp(1.8) }} className="font-semibold text-neutral-500">Already have an account?</Text>
               <Pressable onPress={() => router.push('signIn')}>
-                <Text style={{ fontSize: hp(1.8) }} className="font-bold text-indigo-500">Sign In</Text>
+                <Text style={{ fontSize: hp(1.8) }} className="font-bold text-[#FF98B1]">Sign In</Text>
               </Pressable>
             </View>
 
