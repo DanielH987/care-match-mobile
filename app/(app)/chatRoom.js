@@ -1,7 +1,7 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert, Keyboard } from 'react-native';
 import ChatRoomHeader from '../../components/ChatRoomHeader';
 import MessageList from '../../components/MessageList';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -36,7 +36,14 @@ export default function ChatRoom() {
             setMessages([...allMessages]);
         });
 
-        return unsub;
+        const KeyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+            updateScrollView();
+        });
+
+        return () => {
+            unsub();
+            KeyboardDidShowListener.remove();
+        };
     }, []);
 
     useEffect(() => {
