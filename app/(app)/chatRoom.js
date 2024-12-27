@@ -19,6 +19,7 @@ export default function ChatRoom() {
     const [messages, setMessages] = useState([]);
     const textRef = useRef('');
     const inputRef = useRef(null);
+    const scrollViewRef = useRef(null);
 
     useEffect(() => {
         createRoomIfNotExists();
@@ -37,6 +38,16 @@ export default function ChatRoom() {
 
         return unsub;
     }, []);
+
+    useEffect(() => {
+        updateScrollView();
+    }, [messages]);
+
+    const updateScrollView = () => {
+        setTimeout(() => {
+            scrollViewRef.current.scrollToEnd({ animated: true });
+        }, 100);
+    };
 
     const createRoomIfNotExists = async () => {
         // Create a room if it doesn't exist
@@ -82,7 +93,7 @@ export default function ChatRoom() {
                 <View className='h-3 border-b border-neutral-300' />
                 <View className='flex-1 justify-between bg-neutral-100 ovverflow-visible'>
                     <View className='flex-1'>
-                        <MessageList messages={messages} currentUser={user} />
+                        <MessageList scrollViewRef={scrollViewRef} messages={messages} currentUser={user} />
                     </View>
                     <View style={{ marginBottom: hp(2.7) }} className='pt-2'>
                         <View className='flex-row mx-3 justify-between bg-white border p-2 border-neutral-300 rounded-full pl-5' style={{ height: hp(6) }}>
